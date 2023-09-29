@@ -15,8 +15,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-
-
 loadFonts()
 
 createApp(App)
