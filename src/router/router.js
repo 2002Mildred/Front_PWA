@@ -8,7 +8,7 @@ const routes = [
     component: () => import('../components/Login.vue'),
   },
  
-  // Agrega más rutas según tu aplicación
+  
 ];
 
 const router = createRouter({
