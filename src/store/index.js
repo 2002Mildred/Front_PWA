@@ -12,6 +12,6 @@ export default createStore({
     // Tus acciones aquí
   },
   modules: {
-    // Tus módulos aquí (si es necesario)
+ 
   },
 });
