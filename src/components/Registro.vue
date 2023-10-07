@@ -3,7 +3,7 @@
     <!-- v-parallax, condicionalmente visible en dispositivos de escritorio -->
     <v-parallax
       v-if="isDesktop"
-    
+
       src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
     >
       <!-- Contenedor dentro de v-parallax, posición absoluta -->

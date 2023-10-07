@@ -4,8 +4,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Login',
     component: () => import('../components/Login.vue'),
+  },
+  {
+    path: '/Registro',
+    name: 'Registro',
+    component: () => import('../components/Login.vue'),
+  },
+  {
+    path: '/Recordar',
+    name: 'Contraseña',
+    component: () => import('../components/RecordarCotraseña.vue'),
   },
  
   

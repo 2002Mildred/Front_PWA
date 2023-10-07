@@ -12,21 +12,30 @@ export default defineConfig({
 		vue(),
 		vuetify({ autoImport: true }),
 		VitePWA({
+			immediate: true ,
+			
 			manifest: {
-			  name: 'Medico',
-			  short_name: 'Mi PWA',
-			  start_url: '/',
-			  display: 'standalone',
-			  background_color: '#F6F6F6',
-			  theme_color: '#5DB075',
-			  icons: [
-				{
-				  src: './src/assets/logo.svg',
-				  sizes: '192x192',
-				  type: 'image/png',
-				},
-			  ],
-			},
+				name: "MedicHelp",
+				short_name: "PWAMH",
+				icons: [
+				  {
+					src: "/images/icons/app-icon-48x48.png",
+					type: "image/png",
+					sizes: "48x48"
+				  },
+				  {
+					src: "/images/icons/app-icon-96x96.png",
+					type: "image/png",
+					sizes: "96x96"
+				  },
+				  {
+					src: "/images/icons/app-icon-144x144.png",
+					type: "image/png",
+					sizes: "144x144"
+				  }
+				],
+			
+			  },
 		  }),
 		],
 })
