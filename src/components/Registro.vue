@@ -1,14 +1,7 @@
 <template>
   <div>
-    <!-- v-parallax, condicionalmente visible en dispositivos de escritorio -->
-    <v-parallax
-      v-if="isDesktop"
-
-      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-    >
-      <!-- Contenedor dentro de v-parallax, posición absoluta -->
+    <v-parallax v-if="isDesktop" src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
       <v-container fluid class="container d-flex text-center">
-        <!-- Contenido dentro del v-container -->
         <v-row justify="center">
           <v-col cols="12" sm="8" md="8">
             <v-card class="login-card" >
@@ -16,7 +9,7 @@
                 Sign Up
               </v-card-title>
               <v-card-text>
-                <v-form @submit.prevent="login">
+                <v-form @submit.prevent="register">
                   <v-text-field
                     v-model="name"
                     label="Nombre"
@@ -46,6 +39,24 @@
                       </v-btn>
                     </template>
                   </v-text-field>
+                  <v-text-field
+                    v-model="username"
+                    label="Nombre de usuario"
+                    required
+                    outlined
+                  ></v-text-field>
+                  <v-select
+                    v-model="gender"
+                    :items="genderOptions"
+                    label="Género"
+                    required
+                    outlined
+                  ></v-select>
+                  <v-text-field
+                    v-model="birthday"
+                    label="Fecha de nacimiento"
+                    outlined
+                  ></v-text-field>
                   <v-btn
                     color="success"
                     dark
@@ -63,9 +74,7 @@
       </v-container>
     </v-parallax>
 
-    <!-- Contenedor para dispositivos móviles o cuando v-parallax no está visible -->
     <v-container v-else fluid>
-      <!-- Contenido dentro del v-container -->
       <v-row justify="center">
         <v-col cols="12" sm="8" md="8">
           <v-card class="login-card">
@@ -73,12 +82,13 @@
               Sign Up
             </v-card-title>
             <v-card-text>
-              <v-form @submit.prevent="login">
+              <v-form @submit.prevent="register">
                 <v-text-field
                   v-model="name"
                   label="Nombre"
                   required
                   outlined
+                  prepend-icon="mdi-account"
                 ></v-text-field>
                 <v-text-field
                   v-model="email"
@@ -86,7 +96,8 @@
                   required
                   outlined
                   class="input-background"
-                ></v-text-field>
+                  prepend-icon="mdi-email"
+                ></v-text-field>  
                 <v-text-field
                   v-model="password"
                   label="Contraseña"
@@ -103,6 +114,24 @@
                     </v-btn>
                   </template>
                 </v-text-field>
+                <v-text-field
+                  v-model="username"
+                  label="Nombre de usuario"
+                  required
+                  outlined
+                ></v-text-field>
+                <v-select
+                  v-model="gender"
+                  :items="genderOptions"
+                  label="Género"
+                  required
+                  outlined
+                ></v-select>
+                <v-text-field
+                  v-model="birthday"
+                  label="Fecha de nacimiento"
+                  outlined
+                ></v-text-field>
                 <v-btn
                   color="success"
                   dark
@@ -128,8 +157,12 @@ export default {
       name: '',
       email: '',
       password: '',
+      username: '',
+      gender: '', // Campo de género
+      birthday: '',
       showPassword: false,
-      isDesktop: window.innerWidth >= 600
+      isDesktop: window.innerWidth >= 600,
+      genderOptions: ['Hombre', 'Mujer'], // Opciones de género
     };
   },
   mounted() {
@@ -143,8 +176,39 @@ export default {
   methods: {
     handleResize() {
       this.isDesktop = window.innerWidth >= 600;
-    }
-  }
+    },
+    async register() {
+      // Construye el objeto de datos a enviar en la solicitud POST
+      const postData = {
+        email: this.email,
+        password: this.password,
+        username: this.username,
+        Gender: this.gender,
+        Birthday: this.birthday,
+      };
+
+      // Realiza la solicitud de registro y obtén el token
+      try {
+        const response = await fetch('https://localhost:44321/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+        });
+
+        if (response.ok) {
+          // Registro exitoso, maneja la respuesta si es necesario
+          console.log('Registro exitoso');
+        } else {
+          // Maneja los errores de registro
+          console.error('Error de registro:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error de registro:', error);
+      }
+    },
+  },
 };
 </script>
 
@@ -163,10 +227,7 @@ export default {
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
- 
 } 
-
-
 
 .text-center {
   text-align: center;
@@ -175,17 +236,15 @@ export default {
 
 .container {
   display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  height: 100vh; /* Esto es opcional y ajustará la altura del contenedor al 100% del viewport */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .login-button {
   margin-top: 20px;
-  
-  background-color: #5DB075; /* Color del botón */
-  padding: 10px 40px; /* Padding horizontal del botón */
-  color: #fff; /* Color del texto en el botón */
+  background-color: #5DB075;
+  padding: 10px 40px;
+  color: #fff;
 }
-
 </style>
