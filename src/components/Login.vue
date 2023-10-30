@@ -1,91 +1,21 @@
 <template>
   <div>
-    <!-- v-parallax, condicionalmente visible en dispositivos de escritorio -->
-    <v-parallax
-      v-if="isDesktop"
-    
-      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-    >
-      <!-- Contenedor dentro de v-parallax, posición absoluta -->
-      <v-container fluid class="container d-flex text-center">
-        <!-- Contenido dentro del v-container -->
-        <v-row justify="center">
-          <v-col cols="12" sm="8" md="8">
-            <v-card class="login-card" >
-              <v-card-title class="text-center" style="font-size: 30px; font-weight: 500;">
-                Sign Up
-              </v-card-title>
-              <v-card-text>
-                <v-form @submit.prevent="login">
-                  <v-text-field
-                    v-model="name"
-                    label="Nombre"
-                    required
-                    outlined
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="email"
-                    label="Correo Electrónico"
-                    required
-                    outlined
-                    class="input-background"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="password"
-                    label="Contraseña"
-                    type="password"
-                    required
-                    outlined
-                    class="input-background"
-                  >
-                    <template v-slot:append>
-                      <v-btn icon @click="showPassword = !showPassword" :color="showPassword ? 'primary' : ''">
-                        <v-icon>
-                          {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                  </v-text-field>
-                  <v-btn
-                    color="success"
-                    dark
-                    block
-                    type="submit"
-                    class="login-button"
-                  >
-                    Registrarse
-                  </v-btn>
-                </v-form>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-parallax>
-
-    <!-- Contenedor para dispositivos móviles o cuando v-parallax no está visible -->
-    <v-container v-else fluid>
-      <!-- Contenido dentro del v-container -->
+    <v-container fluid class="container d-flex text-center">
       <v-row justify="center">
         <v-col cols="12" sm="8" md="8">
-          <v-card class="login-card">
+          <v-card class="login-card" >
             <v-card-title class="text-center" style="font-size: 30px; font-weight: 500;">
-              Sign Up
+              Iniciar Sesión
             </v-card-title>
             <v-card-text>
-              <v-form @submit.prevent="login">
-                <v-text-field
-                  v-model="name"
-                  label="Nombre"
-                  required
-                  outlined
-                ></v-text-field>
+              <v-form @submit.prevent="register">
                 <v-text-field
                   v-model="email"
                   label="Correo Electrónico"
                   required
                   outlined
                   class="input-background"
+                  prepend-icon="mdi-email"
                 ></v-text-field>
                 <v-text-field
                   v-model="password"
@@ -94,9 +24,10 @@
                   required
                   outlined
                   class="input-background"
+                  prepend-icon="mdi-lock"
                 >
                   <template v-slot:append>
-                    <v-btn icon @click="showPassword = !showPassword" :color="showPassword ? 'primary' : ''">
+                    <v-btn icon @click="showPassword = !showPassword" :color="showPassword ? '#5DB075' : ''">
                       <v-icon>
                         {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
@@ -109,6 +40,15 @@
                   block
                   type="submit"
                   class="login-button"
+                >
+                  Iniciar
+                </v-btn>
+                <v-btn
+                  color="success"
+                  dark
+                  block
+                  type="submit"
+                  class="register-button"
                 >
                   Registrarse
                 </v-btn>
@@ -125,7 +65,6 @@
 export default {
   data() {
     return {
-      name: '',
       email: '',
       password: '',
       showPassword: false,
@@ -143,10 +82,46 @@ export default {
   methods: {
     handleResize() {
       this.isDesktop = window.innerWidth >= 600;
-    }
-  }
+    },
+    async register() {
+      // Realiza la solicitud de registro y obtén el token
+      try {
+        const response = await fetch('https://localhost:44321/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const accessToken = data.AccessToken;
+          const uuid = data.UUID;
+
+          // Guarda el token en el localStorage
+          localStorage.setItem('accessToken', accessToken);
+          // También puedes guardar el UUID si es necesario
+          localStorage.setItem('uuid', uuid);
+
+          // Redirige o realiza otras acciones después del registro exitoso
+          // En este ejemplo, redirigiremos al usuario a otra página
+          this.$router.push('/IMC.vue'); // Ajusta la ruta según tus necesidades
+        } else {
+          // Maneja los errores de registro
+          console.error('Error de registro:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error de registro:', error);
+      }
+    },
+  },
 };
 </script>
+
 
 <style scoped lang="css">
 .parallax-container {
@@ -166,8 +141,6 @@ export default {
  
 } 
 
-
-
 .text-center {
   text-align: center;
   justify-items: center;
@@ -181,6 +154,14 @@ export default {
 }
 
 .login-button {
+  margin-top: 20px;
+  
+  background-color: #5DB075; /* Color del botón */
+  padding: 10px 40px; /* Padding horizontal del botón */
+  color: #fff; /* Color del texto en el botón */
+}
+
+.register-button {
   margin-top: 20px;
   
   background-color: #5DB075; /* Color del botón */

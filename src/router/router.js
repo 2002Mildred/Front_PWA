@@ -8,9 +8,14 @@ const routes = [
     component: () => import('../components/Login.vue'),
   },
   {
+    path: '/IMC',
+    name: 'IMC',
+    component: () => import('../components/IMC.vue'),
+  },
+  {
     path: '/Registro',
     name: 'Registro',
-    component: () => import('../components/Login.vue'),
+    component: () => import('../components/Registro.vue'),
   },
   {
     path: '/Recordar',
