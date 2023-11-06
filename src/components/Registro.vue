@@ -200,6 +200,8 @@ export default {
         if (response.ok) {
           // Registro exitoso, maneja la respuesta si es necesario
           console.log('Registro exitoso');
+          this.$router.push({ name: 'Login' });
+
         } else {
           // Maneja los errores de registro
           console.error('Error de registro:', response.statusText);
