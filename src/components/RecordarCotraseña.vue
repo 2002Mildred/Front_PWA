@@ -18,7 +18,7 @@
                 
                 <v-text-field
                   v-model="email"
-                  label="Correo Electrónico"
+                  label="Correo Electrónicos"
                   required
                   outlined
                   class="input-background"
