@@ -1,6 +1,13 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router';
 
+const requireAuth = (to, from, next) => {
+  if (localStorage.getItem('accessToken') == null) {
+    next('/') // Si el usuario está autenticado, se permite el acceso a la ruta
+  } else {
+    next() // Si el usuario no está autenticado, se redirige a la página de inicio
+  }
+};
 const routes = [
   {
     path: '/',
@@ -11,6 +18,13 @@ const routes = [
     path: '/IMC',
     name: 'IMC',
     component: () => import('../components/IMC.vue'),
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/Inicio',
+    name: 'Inicio',
+    component: () => import('../components/Inicio.vue'),
+    beforeEnter: requireAuth
   },
   {
     path: '/Registro',

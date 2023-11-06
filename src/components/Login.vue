@@ -49,6 +49,7 @@
                   block
                   type="submit"
                   class="register-button"
+                  @click="redirectToRegistration"
                 >
                   Registrarse
                 </v-btn>
@@ -61,6 +62,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   data() {
@@ -68,7 +70,7 @@ export default {
       email: '',
       password: '',
       showPassword: false,
-      isDesktop: window.innerWidth >= 600
+      isDesktop: window.innerWidth >= 600,
     };
   },
   mounted() {
@@ -80,43 +82,42 @@ export default {
     window.removeEventListener('resize', this.handleResize);
   },
   methods: {
+    register() {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const response = await fetch('https://localhost:44321/api/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: this.email,
+              password: this.password,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('uuid', data.uuid);
+            this.$router.push({ name: 'Inicio' });
+            resolve(data); 
+          } else {
+            reject('Error de Login'); 
+          }
+        } catch (error) {
+          console.error('Error de Login:', error);
+          reject(error); 
+        }
+      }).catch((catchError) => {
+        console.error('Error al manejar la promesa:', catchError);
+      });
+    },
+    redirectToRegistration() {
+      this.$router.push({ name: 'Registro' });
+    },
     handleResize() {
       this.isDesktop = window.innerWidth >= 600;
-    },
-    async register() {
-      // Realiza la solicitud de registro y obtén el token
-      try {
-        const response = await fetch('https://localhost:44321/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password,
-          }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const accessToken = data.AccessToken;
-          const uuid = data.UUID;
-
-          // Guarda el token en el localStorage
-          localStorage.setItem('accessToken', accessToken);
-          // También puedes guardar el UUID si es necesario
-          localStorage.setItem('uuid', uuid);
-
-          // Redirige o realiza otras acciones después del registro exitoso
-          // En este ejemplo, redirigiremos al usuario a otra página
-          this.$router.push('/IMC.vue'); // Ajusta la ruta según tus necesidades
-        } else {
-          // Maneja los errores de registro
-          console.error('Error de registro:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error de registro:', error);
-      }
     },
   },
 };
