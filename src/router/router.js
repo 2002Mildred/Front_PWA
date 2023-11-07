@@ -33,7 +33,7 @@ const routes = [
   },
   {
     path: '/Recordar',
-    name: 'Contraseña',
+    name: 'Recordar',
     component: () => import('../components/RecordarCotraseña.vue'),
   },
  
