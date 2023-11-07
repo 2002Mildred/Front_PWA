@@ -21,9 +21,22 @@ const routes = [
     beforeEnter: requireAuth
   },
   {
+    path: '/RecipeHipertension',
+    name: 'RecipeHipertension',
+    component: () => import('../components/RecipeHipertension.vue'),
+    beforeEnter: requireAuth
+  },
+  {
     path: '/Inicio',
     name: 'Inicio',
     component: () => import('../components/Inicio.vue'),
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/recipe/:id',
+    name: 'recipe-details',
+    component: () => import('../components/RecipeDetails.vue'),
+    props: true,
     beforeEnter: requireAuth
   },
   {

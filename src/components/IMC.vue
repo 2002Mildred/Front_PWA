@@ -48,9 +48,11 @@
                   </v-btn>
                 </v-form>
                 <div v-if="imcResult">
-                  <p class="imc-result">Tu IMC es: {{ imcResult.toFixed(2) }}</p>
-                  <p>
-                     {{ getIMCClassification(imcResult) }}
+                  <p class="imc-result">
+                    Tu IMC es: {{ imcResult.toFixed(2) }}
+                  </p>
+                  <p class="imc-classification">
+                    {{ getIMCClassification(imcResult) }}
                   </p>
                 </div>
               </v-card-text>
@@ -69,6 +71,7 @@
         weight: null,
         height: null,
         imcResult: null,
+        uuid: localStorage.getItem('uuid'),
         genderOptions: ['Hombre', 'Mujer'] // Opciones para el campo de selección de sexo
       };
     },
@@ -86,6 +89,37 @@
         const imc = this.weight / (heightInMeters * heightInMeters);
         // Actualizar el resultado
         this.imcResult = imc;
+        return new Promise((resolve, reject) => {
+    
+          const data = {
+            UserId: this.uuid, 
+            IMC: this.imcResult
+          };
+
+          console.log(data);
+          fetch('https://localhost:44321/api/Auth/add-imc', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Error en la solicitud');
+              }
+              return response.json();
+            })
+            .then((data) => {
+              // Actualizar 'imcResult' con el valor del IMC
+              this.imcResult = data.imc;
+              resolve(data);
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+              reject(error);
+            });
+      });
       },
       getIMCClassification(imc) {
         // Agregar lógica para clasificar IMC según el sexo
@@ -121,6 +155,7 @@
           }
         }
       }
+      
     }
   };
   </script>
@@ -160,5 +195,17 @@
   color: #fff; /* Color del texto en el botón */
 }
 
+.imc-result {
+  font-size: 24px; /* Tamaño de fuente */
+  color: #4CAF50; /* Color de texto verde */
+  margin-top: 10px; /* Margen superior */
+}
+
+.imc-classification {
+  font-size: 18px; /* Tamaño de fuente */
+  color: #333; /* Color de texto predeterminado */
+  margin-top: 10px; /* Margen superior */
+}
 </style>
-  
+
+
