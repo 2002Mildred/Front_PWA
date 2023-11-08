@@ -44,7 +44,7 @@
           })
             .then((response) => {
               if (!response.ok) {
-                reject(new Error('No se pudo obtener los detalles de la receta.'));
+                reject(new Error('No ¿se pudo obtener los detalles de la receta.'));
               }
               return response.json();
             })
