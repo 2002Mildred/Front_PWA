@@ -5,7 +5,16 @@ self.addEventListener('install', (event) => {
       return cache.addAll([
         '/index.html',
         '/src/main.js',
-        '/src/assets/descarga.jpeg'
+        '/src/assets/descarga.jpeg',
+        './public/images/icons/app-icon-114x114.png',
+        '/src/components/IMC.vue',
+        '/src/components/Inicio.vue',
+        '/src/components/Login.vue',
+        'src/plugins/vuetify.js',
+        '/src/components/RecipeDetails.vue',
+        '/src/components/RecipeHipertension.vue',
+        '/src/components/Registro.vue',
+        
       ]);
     })
   );

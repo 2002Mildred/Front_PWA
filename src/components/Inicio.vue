@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background">
     <v-container fluid class="container d-flex text-center">
       <v-row justify="center">
         <v-col cols="12" sm="8" md="8">

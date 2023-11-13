@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="#5DB075"> <!-- Aquí agregamos el color personalizado -->
-      <!-- Contenido de la AppBar -->
+    <v-app-bar app color="#5DB075"> 
     </v-app-bar>
 
     <v-main>
