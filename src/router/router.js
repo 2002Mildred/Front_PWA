@@ -33,6 +33,12 @@ const routes = [
     beforeEnter: requireAuth
   },
   {
+    path: '/CamaraComponent',
+    name: 'CamaraComponent',
+    component: () => import('../components/CamaraComponent.vue'),
+    beforeEnter: requireAuth
+  },
+  {
     path: '/recipe/:id',
     name: 'recipe-details',
     component: () => import('../components/RecipeDetails.vue'),

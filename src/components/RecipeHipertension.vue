@@ -18,7 +18,7 @@
         lg="3"
       >
         <v-card @click="navigateToRecipeDetails(recipe)">
-          <v-img src="https://cdn0.recetasgratis.net/es/posts/6/7/5/espinacas_con_papas_56576_600.jpg" aspect-ratio="2/3"> </v-img>
+          <v-img :src="recipe.image" aspect-ratio="2/3"> </v-img>
           <v-card-title>{{ recipe.name }}</v-card-title>
           <v-card-text>{{ recipe.time }} minutos</v-card-text>
         </v-card>
@@ -36,20 +36,35 @@ export default {
     };
   },
   methods: {
-    getRecipesByCategory(category) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const response = await fetch(`https://localhost:44321/api/RECIPE/category/${category}`);
-          if (!response.ok) {
-            reject(new Error('No se pudo obtener la lista de recetas.'));
-          }
-          const data = await response.json();
-          resolve(data);
-        } catch (error) {
-          reject(error);
-        }
-      });
-    },
+    async getRecipesByCategory(category) {
+  try {
+    const cacheKey = `https://localhost:44321/api/RECIPE/category/${category}`;
+    const cache = await caches.open('my-cache');
+
+    // Intenta obtener la respuesta desde el caché
+    const cachedResponse = await cache.match(cacheKey);
+
+    // Si hay una respuesta en el caché, devuélvela directamente
+    if (cachedResponse) {
+      const cachedData = await cachedResponse.json();
+      return cachedData;
+    }
+
+    // Si no hay respuesta en el caché, realiza la solicitud a la red
+    const response = await fetch(cacheKey);
+
+    // Si la solicitud a la red fue exitosa, almacena la respuesta en el caché
+    if (response.ok) {
+      await cache.put(cacheKey, response.clone());
+    }
+
+    // Devuelve la respuesta
+    return response.json();
+  } catch (error) {
+    // Si hay algún error, lánzalo para que sea manejado más arriba
+    throw error;
+  }
+},
     searchRecipes() {
       return new Promise(async (resolve, reject) => {
         try {
