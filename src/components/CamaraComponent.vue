@@ -1,39 +1,72 @@
 <template>
-    <div>
-        <form id="recipeForm">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name" v-model="formData.name" required>
+    <v-container class="recipe-form-container">
+      <v-form @submit.prevent="submitRecipe" id="recipeForm">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field label="Nombre" v-model="formData.name" required></v-text-field>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field label="Tiempo de preparación" v-model="formData.time" required></v-text-field>
+          </v-col>
+        </v-row>
   
-        <label for="time">Tiempo de preparación:</label>
-        <input type="text" id="time" name="time" v-model="formData.time" required>
+        <v-row>
+            <v-col cols="12" md="3">
+              <v-btn @click="openCamera" class="camera-button">Abrir Cámara</v-btn>
+             
+              <v-row>
+                <v-col cols="6" v-if="isVideoOpen">
+                  <video ref="video" autoplay  ></video>
+                </v-col>
+                <v-col cols="6">
+                  <canvas ref="canvas" style="display: none;"></canvas>
+                  <v-img v-if="capturedImage" :src="capturedImage" alt="Captured Image" class="captured-image" />
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-btn
+            v-if="isCameraOpen"
+            @click="takePhoto"
+            class="rounded-photo-button"
+          >
+          📸
+          </v-btn>
+        </v-row>
   
-      <button @click="openCamera">Abrir Cámara</button>
-      <video ref="video" autoplay></video>
-      <button @click="takePhoto">Tomar Foto</button>
-      <canvas ref="canvas" style="display: none;"></canvas>
-      <img v-if="capturedImage" :src="capturedImage" alt="Captured Image" style="max-width: 100%; margin-top: 10px;"  >
-      <label for="ingredients">Ingredientes (separados por comas):</label>
-      <input type="text" id="ingredients" name="ingredients" v-model="formData.ingredients" required>
-
-      <label for="category">Categoría:</label>
-      <input type="text" id="category" name="category" v-model="formData.category" readonly>
-
-      <label for="preparationSteps">Pasos de preparación (separados por comas):</label>
-      <input type="text" id="preparationSteps" name="preparationSteps" v-model="formData.preparationSteps" required>
-
-      <label for="uidUser">ID de usuario:</label>
-      <input type="text" id="uidUser" name="uidUser" v-model="formData.uidUser" required>
-      <button type="button" @click="submitRecipe">Registrar Receta</button>
-      </form>
-    </div>
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field label="Ingredientes (separados por comas)" v-model="formData.ingredients" required></v-text-field>
+          </v-col>
+        
+          <v-col cols="12" md="6"> 
+            <v-text-field label="Categoría" v-model="formData.category" readonly></v-text-field>
+          </v-col>
+        </v-row>
+  
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field label="Pasos de preparación (separados por comas)" v-model="formData.preparationSteps" required></v-text-field>
+          </v-col>
+        
+          <v-col cols="12" md="6">
+            <v-text-field label="ID de usuario" v-model="formData.uidUser" required></v-text-field>
+          </v-col>
+       
+          <v-col cols="12" md="6">
+            <v-btn type="submit" class="submit-button">Registrar Receta</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-container>
   </template>
-  
   <script>
   export default {
     data() {
       return {
         videoStream: null,
         capturedImage: null,
+        isCameraOpen: false,
+        isVideoOpen: false,
         formData: {
         name: '',
         time: '',
@@ -48,16 +81,21 @@
     },
     methods: {
       openCamera() {
+        this.isVideoOpen = true;
+        this.isCameraOpen = true;
         navigator.mediaDevices.getUserMedia({ video: true })
           .then((stream) => {
             this.$refs.video.srcObject = stream;
             this.videoStream = stream;
+          
           })
           .catch((error) => {
             console.error('Error al abrir la cámara:', error);
           });
       },
       takePhoto() {
+        this.isVideoOpen = false;
+        this.isCameraOpen = false;
         if (this.videoStream) {
           const video = this.$refs.video;
           const canvas = this.$refs.canvas;
@@ -112,4 +150,43 @@
     },
   };
   </script>
+<style scoped>
+.recipe-form-container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.camera-button {
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.rounded-photo-button {
+    border-radius: 85px; /* Ajusta el valor según tus preferencias para hacerlo más redondo o menos */
+    background-color: white;
+    color: white;
+    cursor: pointer;
+    width: 40px; /* Ajusta el ancho según tus preferencias */
+    height: 40px; /* Ajusta la altura según tus preferencias */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -40px;
+    right: -7vh;
+    
+  }
   
+.captured-image {
+  max-width: 100%;
+  margin-top: 0px;
+}
+
+/* Make the video responsive */
+video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+</style>

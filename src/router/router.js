@@ -24,7 +24,7 @@ const routes = [
     path: '/RecipeHipertension',
     name: 'RecipeHipertension',
     component: () => import('../components/RecipeHipertension.vue'),
-    beforeEnter: requireAuth
+
   },
   {
     path: '/Inicio',
@@ -43,7 +43,7 @@ const routes = [
     name: 'recipe-details',
     component: () => import('../components/RecipeDetails.vue'),
     props: true,
-    beforeEnter: requireAuth
+
   },
   {
     path: '/Registro',
