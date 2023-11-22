@@ -1,11 +1,12 @@
+// App.vue
 <template>
   <v-app>
-    <v-app-bar app color="#5DB075"> <!-- Aquí agregamos el color personalizado -->
-      <!-- Contenido de la AppBar -->
+    <v-app-bar app color="#5DB075">
+      <v-btn @click="subscribeToNotifications">Suscribirse a Notificaciones</v-btn>
     </v-app-bar>
 
     <v-main>
-      <router-view></router-view> 
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>

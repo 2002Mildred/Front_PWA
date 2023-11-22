@@ -1,0 +1,50 @@
+@media screen and (max-width: 600px) {
+    .background {
+      background: none !important;
+    }
+  
+    .container {
+      display: flex;
+      justify-content: flex-start !important; 
+      align-items: flex-start !important;
+      background-image: none  !important
+    }
+  
+    .login-card {
+      margin-top: 20px !important;
+    }
+  }
+  
+  .background {
+    background-image: none;
+   
+  }
+  
+  .login-card {
+    max-width: 800px;
+    max-height: 600px;
+    margin: 0 auto;
+    padding: 20px !important;
+    background-color: #fff;
+  }
+  
+  .text-center {
+    text-align: center!important;
+    justify-items: center!important;
+  }
+  
+  .container {
+    display: flex !important;
+    justify-content: center!important;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../../public/images/assets/fondo.png');
+  }
+  
+  .login-button {
+    margin-top: 20px!important;
+    margin-bottom: 20px!important;
+    background-color: #5DB075!important;
+    padding: 10px 40px !important;
+    color: #fff !important;
+  }

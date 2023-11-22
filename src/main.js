@@ -5,6 +5,7 @@ import { loadFonts } from './plugins/webfontloader'
 import router from './router/router';
 import store from './store'; 
 import './js/registerSW'
+import './css/style-medic.css'
 
 loadFonts()
 createApp(App)

@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <v-parallax v-if="isDesktop" src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
-      <v-container fluid class="container d-flex text-center">
-        <v-row justify="center">
-          <v-col cols="12" sm="8" md="8">
+  <div class="background">
+      <v-container fluid class=" container d-flex text-center">
+        <v-row justify="center"  >
+          <v-col cols="12" sm="8" md="8" >
             <v-card class="login-card" >
               <v-card-title class="text-center" style="font-size: 30px; font-weight: 500;">
                 Registrate 
@@ -23,7 +22,6 @@
                     required
                     outlined
                     class="input-background"
-                    prepend-icon="mdi-email"
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
@@ -32,7 +30,6 @@
                     required
                     outlined
                     class="input-background"
-                    prepend-icon="mdi-lock"
                   >
                     <template v-slot:append>
                       <v-btn icon @click="showPassword = !showPassword" :color="showPassword ? 'primary' : ''">
@@ -47,7 +44,6 @@
                     label="Nombre de usuario"
                     required
                     outlined
-                    prepend-icon="mdi-account"
                   ></v-text-field>
                   <v-select
                     v-model="gender"
@@ -55,13 +51,11 @@
                     label="Género"
                     required
                     outlined
-                    prepend-icon="mdi-human-greeting"
                   ></v-select>
                   <v-text-field
                     v-model="birthday"
                     label="Fecha de nacimiento"
                     outlined
-                    prepend-icon="mdi-calendar"
                   ></v-text-field>
                   <v-btn
                     color="success"
@@ -70,7 +64,7 @@
                     type="submit"
                     class="login-button"
                   >
-                    Registrate
+                    Registrarse
                   </v-btn>
                 </v-form>
               </v-card-text>
@@ -111,7 +105,6 @@
                   required
                   outlined
                   class="input-background"
-                  prepend-icon="mdi-lock"
                 >
                   <template v-slot:append>
                     <v-btn icon @click="showPassword = !showPassword" :color="showPassword ? 'primary' : ''">
@@ -126,7 +119,6 @@
                   label="Nombre de usuario"
                   required
                   outlined
-                  prepend-icon="mdi-account"
                 ></v-text-field>
                 <v-select
                   v-model="gender"
@@ -134,13 +126,11 @@
                   label="Género"
                   required
                   outlined
-                  prepend-icon="mdi-human-greeting"
                 ></v-select>
                 <v-text-field
                   v-model="birthday"
                   label="Fecha de nacimiento"
                   outlined
-                  prepend-icon="mdi-calendar"
                 ></v-text-field>
                 <v-btn
                   color="success"
@@ -259,5 +249,4 @@ export default {
   padding: 10px 40px;
   color: #fff;
 }
-
 </style>

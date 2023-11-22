@@ -18,7 +18,7 @@
         lg="3"
       >
         <v-card @click="navigateToRecipeDetails(recipe)">
-          <v-img src="https://cdn0.recetasgratis.net/es/posts/6/7/5/espinacas_con_papas_56576_600.jpg" aspect-ratio="2/3"> </v-img>
+          <v-img :src="recipe.image" aspect-ratio="2/3"> </v-img>
           <v-card-title>{{ recipe.name }}</v-card-title>
           <v-card-text>{{ recipe.time }} minutos</v-card-text>
         </v-card>
@@ -37,19 +37,42 @@ export default {
   },
   methods: {
     getRecipesByCategory(category) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const response = await fetch(`http://serviceuniversity.somee.com/api/RECIPE/category/${category}`);
-          if (!response.ok) {
-            reject(new Error('No se pudo obtener la lista de recetas.'));
-          }
-          const data = await response.json();
-          resolve(data);
-        } catch (error) {
-          reject(error);
+  const cacheKey = `https://localhost:44321/api/RECIPE/category/${category}`;
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(cacheKey);
+
+      if (!response.ok) {
+        // Si la respuesta no es exitosa, intenta obtener la respuesta desde el caché
+        const cache = await caches.open('my-cache');
+        const cachedResponse = await cache.match(cacheKey);
+
+        // Si hay una respuesta en el caché, devuélvela directamente
+        if (cachedResponse) {
+          const cachedData = await cachedResponse.json();
+          resolve(cachedData);
+          return;
         }
-      });
-    },
+
+        // Si no hay respuesta en el caché y la respuesta no es exitosa, rechaza la promesa
+        reject(new Error('No se pudo obtener la lista de recetas.'));
+        return;
+      }
+
+      // Si la respuesta es exitosa, almacena la respuesta en el caché y resuelve la promesa
+      const cache = await caches.open('my-cache');
+      await cache.put(cacheKey, response.clone());
+
+      const data = await response.json();
+      resolve(data);
+    } catch (error) {
+      // Si hay algún error, lánzalo para que sea manejado más arriba
+      reject(error);
+    }
+  });
+}
+,
     searchRecipes() {
       return new Promise(async (resolve, reject) => {
         try {
@@ -76,6 +99,7 @@ export default {
       });
     },
     navigateToRecipeDetails(recipe) {
+      console.log(recipe)
       this.$router.push({ name: 'recipe-details', params: { id: recipe.id } });
     }
   },
