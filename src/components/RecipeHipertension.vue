@@ -39,7 +39,7 @@ export default {
     getRecipesByCategory(category) {
       return new Promise(async (resolve, reject) => {
         try {
-          const response = await fetch(`https://localhost:44321/api/RECIPE/category/${category}`);
+          const response = await fetch(`http://serviceuniversity.somee.com/api/RECIPE/category/${category}`);
           if (!response.ok) {
             reject(new Error('No se pudo obtener la lista de recetas.'));
           }
@@ -54,7 +54,7 @@ export default {
       return new Promise(async (resolve, reject) => {
         try {
           if (this.searchTerm) {
-            const response = await fetch(`https://localhost:44321/api/RECIPE/search?recipeName=${this.searchTerm}`);
+            const response = await fetch(`http://serviceuniversity.somee.com/api/RECIPE/search?recipeName=${this.searchTerm}`);
             if (!response.ok) {
               reject(new Error('No se encontraron recetas que coincidan con la búsqueda.'));
             }

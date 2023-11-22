@@ -97,7 +97,7 @@
           };
 
           console.log(data);
-          fetch('https://localhost:44321/api/Auth/add-imc', {
+          fetch('http://serviceuniversity.somee.com/api/Auth/add-imc', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

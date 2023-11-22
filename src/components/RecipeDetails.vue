@@ -39,7 +39,7 @@
       // Utiliza this.id para hacer una solicitud a la API y obtener los detalles de la receta
       const fetchRecipe = () => {
         return new Promise((resolve, reject) => {
-          fetch(`https://localhost:44321/api/RECIPE/searchByUserId/${this.id}`, {
+          fetch(`http://serviceuniversity.somee.com/api/RECIPE/searchByUserId/${this.id}`, {
             method: 'GET',
           })
             .then((response) => {

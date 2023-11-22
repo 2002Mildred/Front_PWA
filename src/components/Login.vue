@@ -3,7 +3,7 @@
     <v-container fluid class="container d-flex text-center">
       <v-row justify="center">
         <v-col cols="12" sm="8" md="8">
-          <v-card class="login-card" >
+          <v-card >
             <v-card-title class="text-center" style="font-size: 30px; font-weight: 500;">
               Iniciar Sesión
             </v-card-title>
@@ -62,7 +62,6 @@
   </div>
 </template>
 
-
 <script>
 export default {
   data() {
@@ -85,7 +84,7 @@ export default {
     register() {
       return new Promise(async (resolve, reject) => {
         try {
-          const response = await fetch('https://localhost:44321/api/auth/login', {
+          const response = await fetch('http://serviceuniversity.somee.com/api/auth/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -124,23 +123,18 @@ export default {
 </script>
 
 
+
 <style scoped lang="css">
-.parallax-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-}
 .login-card {
   max-width: 800px;
   max-height: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
- 
-} 
+  background-image: url('https://img.freepik.com/foto-gratis/capsulas-medicina-salud-global-remix-digital-patron-geometrico_53876-126742.jpg?size=626&ext=jpg&ga=GA1.1.1880011253.1699401600&semt=ais');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .text-center {
   text-align: center;
@@ -149,25 +143,26 @@ export default {
 
 .container {
   display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  height: 100vh; /* Esto es opcional y ajustará la altura del contenedor al 100% del viewport */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .login-button {
   margin-top: 20px;
-  
-  background-color: #5DB075; /* Color del botón */
-  padding: 10px 40px; /* Padding horizontal del botón */
-  color: #fff; /* Color del texto en el botón */
+  background-color: #5DB075;
+  padding: 10px 40px;
+  color: #fff;
+}
+
+.input-background {
+  background-color: #f5f5f5;
 }
 
 .register-button {
   margin-top: 20px;
-  
-  background-color: #5DB075; /* Color del botón */
-  padding: 10px 40px; /* Padding horizontal del botón */
-  color: #fff; /* Color del texto en el botón */
+  background-color: #5DB075;
+  padding: 10px 40px;
+  color: #fff;
 }
-
 </style>
