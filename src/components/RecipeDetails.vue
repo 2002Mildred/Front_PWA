@@ -1,13 +1,15 @@
 <template>
-    <div>
-      <v-card v-if="recipe">
-        <v-img :src="recipe.image" aspect-ratio="2/3"></v-img>
-        <v-card-title>{{ recipe.name }}</v-card-title>
-        <v-card-text>
-          {{ recipe.time }}
-          <!-- Muestra otros detalles de la receta aquí -->
+  <div>
+    <v-card v-if="recipe" class="recipe-card">
+      <v-img :src="recipe.image" aspect-ratio="2/3" class="recipe-image"></v-img>
+      <v-card-title class="recipe-title">{{ recipe.name }}</v-card-title>
+      <v-card-text>
+        <div class="recipe-info">
+          <strong>Tiempo de preparación:</strong> {{ recipe.time }}
+        </div>
+        <div class="recipe-details">
           <div>
-            Ingredientes:
+            <strong>Ingredientes:</strong>
             <ul>
               <li v-for="(ingredient, index) in recipe.ingredients" :key="index">
                 {{ ingredient }}
@@ -15,77 +17,116 @@
             </ul>
           </div>
           <div>
-            Instrucciones:
+            <strong>Instrucciones:</strong>
             <ul>
               <li v-for="(step, index) in recipe.preparationSteps" :key="index">
                 {{ step }}
               </li>
             </ul>
           </div>
-        </v-card-text>
-      </v-card>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: ['id'],
-    data() {
-      return {
-        recipe: null,
-      };
-    },
-    created() {
-      // Utiliza this.id para hacer una solicitud a la API y obtener los detalles de la receta
-      const fetchRecipe = () => {
-     
-  const cacheKey = `https://university56.somee.com/api/RECIPE/searchByUserId/${this.id}`;
+        </div>
+      </v-card-text>
+    </v-card>
+  </div>
+</template>
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      // Intenta realizar la solicitud a la red
-      const response = await fetch(`https://university56.somee.com/api/RECIPE/searchByUserId/${this.id}`, {
-        method: 'GET',
-      });
+<script>
+export default {
+  props: ['id'],
+  data() {
+    return {
+      recipe: null,
+    };
+  },
+  created() {
+    const fetchRecipe = async () => {
+      const cacheKey = `https://university56.somee.com/api/RECIPE/searchByUserId/${this.id}`;
 
-      // Si la solicitud a la red fue exitosa, almacena la respuesta en el caché
-      if (response.ok) {
-        const cache = await caches.open('my-cache');
-        await cache.put(cacheKey, response.clone());
-      }
-
-      // Devuelve la respuesta
-      const data = await response.json();
-      resolve(data);
-    } catch (error) {
-      // Si hay algún error al realizar la solicitud a la red, intenta obtener la respuesta desde el caché
-      const cache = await caches.open('my-cache');
-      const cachedResponse = await cache.match(cacheKey);
-
-      // Si hay una respuesta en el caché, devuélvela directamente
-      if (cachedResponse) {
-        const cachedData = await cachedResponse.json();
-        resolve(cachedData);
-        return;
-      }
-
-      // Si no hay respuesta en el caché y hay un error, lánzalo para que sea manejado más arriba
-      reject(error);
-    }
-  });
-      };
-  
-      fetchRecipe()
-        .then((data) => {
-          
-          this.recipe = data;
-          console.log(data)
-        })
-        .catch((error) => {
-          console.error(error);
-          // Puedes mostrar un mensaje de error al usuario si lo deseas.
+      try {
+        const response = await fetch(`https://university56.somee.com/api/RECIPE/searchByUserId/${this.id}`, {
+          method: 'GET',
         });
-    },
-  };
-  </script>
-  
+
+        if (response.ok) {
+          const cache = await caches.open('my-cache');
+          await cache.put(cacheKey, response.clone());
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        const cache = await caches.open('my-cache');
+        const cachedResponse = await cache.match(cacheKey);
+
+        if (cachedResponse) {
+          const cachedData = await cachedResponse.json();
+          return cachedData;
+        }
+
+        throw error;
+      }
+    };
+
+    fetchRecipe()
+      .then((data) => {
+        this.recipe = data;
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+        // Show an error message to the user if desired.
+      });
+  },
+};
+</script>
+
+<style scoped>
+.recipe-card {
+  max-width: 400px;
+  margin: auto;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.recipe-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-image {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.recipe-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.recipe-info {
+  margin-top: 15px;
+}
+
+.recipe-details {
+  margin-top: 15px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 600px) {
+  .recipe-card {
+    max-width: 100%;
+  }
+}
+</style>

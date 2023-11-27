@@ -12,6 +12,10 @@ var vite_config_default = defineConfig({
       manifest: {
         name: "MedicHelp",
         short_name: "PWAMH",
+        start_url: "/",
+  display: "standalone",
+  background_color: "#ffffff",
+  theme_color: "#4CAF50",
         icons: [
           {
             src: "/images/icons/app-icon-48x48.png",

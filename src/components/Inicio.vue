@@ -50,7 +50,7 @@
                   class="custom-button square-button"
                   @click="redirectToSomeOtherPage"
                 >
-                  Button 3
+                  Ver recetas de Hipertension
                 </v-btn>
               </v-col>
 
@@ -83,10 +83,10 @@ export default {
       this.$router.push({ name: 'IMC' });
     },
     redirectToSomeOtherPage() {
-      this.$router.push({ name: 'SomeOtherPage' });
+      this.$router.push({ name: 'RecipeHipertension' });
     },
     redirectToAnotherPage() {
-      this.$router.push({ name: 'AnotherPage' });
+      this.$router.push({ name: 'profile' });
     },
   },
 };

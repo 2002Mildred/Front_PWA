@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
 export default {
   data() {
     return {
@@ -127,8 +129,11 @@ export default {
         if (response.ok) {
           // Registro exitoso, maneja la respuesta si es necesario
           console.log('Registro exitoso');
-          this.$router.push({ name: 'Login' });
 
+          // Muestra una notificación después de un registro exitoso
+          this.showNotification('Registro exitoso');
+
+          this.$router.push({ name: 'Login' });
         } else {
           // Maneja los errores de registro
           console.error('Error de registro:', response.statusText);
@@ -137,6 +142,9 @@ export default {
         console.error('Error de registro:', error);
       }
     },
+
+    // Método para mostrar notificación utilizando Firebase Messaging
+   
   },
 };
 </script>

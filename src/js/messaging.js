@@ -1,19 +1,4 @@
-// App.vue
-<template>
-  <v-app>
-    <v-app-bar app color="#5DB075">
-      <v-btn @click="subscribeToNotifications">Suscribirse a Notificaciones</v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view></router-view>
-    </v-main>
-  </v-app>
-</template>
-
-<script>
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDbyX1XWzsDbnpKOwXRzZit3bsdqVj_7aU",
@@ -27,8 +12,3 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-const messaging = getMessaging();
-
-
-</script>
