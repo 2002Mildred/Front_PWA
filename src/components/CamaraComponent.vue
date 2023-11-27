@@ -119,7 +119,7 @@
         submitRecipe() {
             console.log(this.formData)
       // Enviar los datos al servicio web usando fetch
-      fetch('https://localhost:44321/api/RECIPE', {
+      fetch('https://university56.somee.com/api/RECIPE', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -90,35 +90,37 @@
         // Actualizar el resultado
         this.imcResult = imc;
         return new Promise((resolve, reject) => {
-    
           const data = {
-            UserId: this.uuid, 
-            IMC: this.imcResult
-          };
+            "UserId": this.uuid, 
+            "IMC": this.imcResult
+};
 
-          console.log(data);
-          fetch('http://serviceuniversity.somee.com/api/Auth/add-imc', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error('Error en la solicitud');
-              }
-              return response.json();
-            })
-            .then((data) => {
-              // Actualizar 'imcResult' con el valor del IMC
-              this.imcResult = data.imc;
-              resolve(data);
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-              reject(error);
-            });
+console.log(data);
+
+fetch('https://university56.somee.com/api/Auth/add-imc', {
+  method: 'POST',
+  body: JSON.stringify(data),
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Error en la solicitud');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    // Actualizar 'imcResult' con el valor del IMC
+    this.imcResult = data.imc;
+    resolve(data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    reject(error);
+  });
+
+          
       });
       },
       getIMCClassification(imc) {

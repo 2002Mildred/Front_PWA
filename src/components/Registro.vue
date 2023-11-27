@@ -72,81 +72,8 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-parallax>
-
-    <v-container v-else fluid>
-      <v-row justify="center">
-        <v-col cols="12" sm="8" md="8">
-          <v-card class="login-card">
-            <v-card-title class="text-center" style="font-size: 30px; font-weight: 500;">
-              Sign Up
-            </v-card-title>
-            <v-card-text>
-              <v-form @submit.prevent="register">
-                <v-text-field
-                  v-model="name"
-                  label="Nombre"
-                  required
-                  outlined
-                  prepend-icon="mdi-account"
-                ></v-text-field>
-                <v-text-field
-                  v-model="email"
-                  label="Correo Electrónico"
-                  required
-                  outlined
-                  class="input-background"
-                  prepend-icon="mdi-email"
-                ></v-text-field>  
-                <v-text-field
-                  v-model="password"
-                  label="Contraseña"
-                  type="password"
-                  required
-                  outlined
-                  class="input-background"
-                >
-                  <template v-slot:append>
-                    <v-btn icon @click="showPassword = !showPassword" :color="showPassword ? 'primary' : ''">
-                      <v-icon>
-                        {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                </v-text-field>
-                <v-text-field
-                  v-model="username"
-                  label="Nombre de usuario"
-                  required
-                  outlined
-                ></v-text-field>
-                <v-select
-                  v-model="gender"
-                  :items="genderOptions"
-                  label="Género"
-                  required
-                  outlined
-                ></v-select>
-                <v-text-field
-                  v-model="birthday"
-                  label="Fecha de nacimiento"
-                  outlined
-                ></v-text-field>
-                <v-btn
-                  color="success"
-                  dark
-                  block
-                  type="submit"
-                  class="login-button"
-                >
-                  Registrarse
-                </v-btn>
-              </v-form>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+    
+ 
   </div>
 </template>
 
@@ -189,7 +116,7 @@ export default {
 
       // Realiza la solicitud de registro y obtén el token
       try {
-        const response = await fetch('http://serviceuniversity.somee.com/api/auth/register', {
+        const response = await fetch('https://university56.somee.com/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

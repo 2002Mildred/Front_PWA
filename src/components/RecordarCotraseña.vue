@@ -46,7 +46,7 @@ export default {
   methods: {
     resetPassword() {
       // Asegúrate de que la ruta coincida con la del controlador ASP.NET Core.
-      const apiUrl = "http://serviceuniversity.somee.com/api/user/reset-password"; // Cambia la URL según tu configuración.
+      const apiUrl = "https://university56.somee.com/api/user/reset-password"; // Cambia la URL según tu configuración.
 
       // Crea un objeto para enviar los datos al controlador.
       const data = {

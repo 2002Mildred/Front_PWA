@@ -33,6 +33,12 @@ const routes = [
     beforeEnter: requireAuth
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../components/perfil.vue'),
+    beforeEnter: requireAuth
+  },
+  {
     path: '/CamaraComponent',
     name: 'CamaraComponent',
     component: () => import('../components/CamaraComponent.vue'),

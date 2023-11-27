@@ -38,29 +38,13 @@
     created() {
       // Utiliza this.id para hacer una solicitud a la API y obtener los detalles de la receta
       const fetchRecipe = () => {
-        return new Promise((resolve, reject) => {
-          fetch(`http://serviceuniversity.somee.com/api/RECIPE/searchByUserId/${this.id}`, {
-            method: 'GET',
-          })
-            .then((response) => {
-              if (!response.ok) {
-                reject(new Error('No ¿se pudo obtener los detalles de la receta.'));
-              }
-              return response.json();
-            })
-            .then((data) => {
-              resolve(data);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        });
-  const cacheKey = `https://localhost:44321/api/RECIPE/searchByUserId/${this.id}`;
+     
+  const cacheKey = `https://university56.somee.com/api/RECIPE/searchByUserId/${this.id}`;
 
   return new Promise(async (resolve, reject) => {
     try {
       // Intenta realizar la solicitud a la red
-      const response = await fetch(`https://localhost:44321/api/RECIPE/searchByUserId/${this.id}`, {
+      const response = await fetch(`https://university56.somee.com/api/RECIPE/searchByUserId/${this.id}`, {
         method: 'GET',
       });
 

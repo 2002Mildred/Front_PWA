@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     getRecipesByCategory(category) {
-  const cacheKey = `https://localhost:44321/api/RECIPE/category/${category}`;
+  const cacheKey = `https://university56.somee.com/api/RECIPE/category/${category}`;
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -77,7 +77,7 @@ export default {
       return new Promise(async (resolve, reject) => {
         try {
           if (this.searchTerm) {
-            const response = await fetch(`http://serviceuniversity.somee.com/api/RECIPE/search?recipeName=${this.searchTerm}`);
+            const response = await fetch(`https://university56.somee.com/api/RECIPE/search?recipeName=${this.searchTerm}`);
             if (!response.ok) {
               reject(new Error('No se encontraron recetas que coincidan con la búsqueda.'));
             }

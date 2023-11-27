@@ -84,7 +84,7 @@ export default {
     register() {
       return new Promise(async (resolve, reject) => {
         try {
-          const response = await fetch('http://serviceuniversity.somee.com/api/auth/login', {
+          const response = await fetch('https://university56.somee.com/api/auth/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
